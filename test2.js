@@ -11,9 +11,12 @@ describe('Flat-chaining example', () => {
 
   it('should resolve given a valid title', () => {
     const request = {
-      type: 'things',
-      attributes: {
-        title: 'The Thing'
+      path: '/talis/things',
+      body: {
+        type: 'things',
+        attributes: {
+          title: 'The Thing'
+        }
       }
     };
     const response = {
@@ -23,6 +26,7 @@ describe('Flat-chaining example', () => {
         title: 'The Thing'
       },
       meta: {
+        inst: 'talis',
         created: '2018-11-15'
       }
     };
@@ -38,9 +42,12 @@ describe('Flat-chaining example', () => {
 
   it('should reject given a blank title', () => {
     const request = {
-      type: 'things',
-      attributes: {
-        title: ''
+      path: '/talis/things',
+      body: {
+        type: 'things',
+        attributes: {
+          title: ''
+        }
       }
     };
 
@@ -50,6 +57,26 @@ describe('Flat-chaining example', () => {
       .then(main.persistData)
       .then(main.serialiseResponse)
       .should.be.rejectedWith('blank_title');
+
+  });
+
+  it('should reject given an unknown institution', () => {
+    const request = {
+      path: '/stranger/things',
+      body: {
+        type: 'things',
+        attributes: {
+          title: 'The Thing'
+        }
+      }
+    };
+
+    return main
+      .deserialiseRequest(request)
+      .then(main.validateRequest)
+      .then(main.persistData)
+      .then(main.serialiseResponse)
+      .should.be.rejectedWith('unknown_inst');
 
   });
 });
