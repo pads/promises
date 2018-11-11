@@ -31,13 +31,7 @@ describe('Flat-chaining example', () => {
       }
     };
 
-    return main
-      .deserialiseRequest(request)
-      .then(main.validateRequest)
-      .then(main.persistData)
-      .then(main.serialiseResponse)
-      .should.be.fulfilledWith(response);
-
+    return main.process(request).should.be.fulfilledWith(response);
   });
 
   it('should reject given a blank title', () => {
@@ -51,13 +45,7 @@ describe('Flat-chaining example', () => {
       }
     };
 
-    return main
-      .deserialiseRequest(request)
-      .then(main.validateRequest)
-      .then(main.persistData)
-      .then(main.serialiseResponse)
-      .should.be.rejectedWith('blank_title');
-
+    return main.process(request).should.be.rejectedWith('blank_title');
   });
 
   it('should reject given an unknown institution', () => {
@@ -71,12 +59,6 @@ describe('Flat-chaining example', () => {
       }
     };
 
-    return main
-      .deserialiseRequest(request)
-      .then(main.validateRequest)
-      .then(main.persistData)
-      .then(main.serialiseResponse)
-      .should.be.rejectedWith('unknown_inst');
-
+    return main.process(request).should.be.rejectedWith('unknown_inst');
   });
 });

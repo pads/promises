@@ -50,6 +50,14 @@ class Main {
       resolve(response);
     });
   }
+
+  process(request) {
+    return this
+      .deserialiseRequest(request)
+      .then(this.validateRequest)
+      .then(this.persistData)
+      .then(this.serialiseResponse);
+  }
 }
 
 module.exports = Main;
