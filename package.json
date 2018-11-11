@@ -1,0 +1,15 @@
+{
+  "name": "promises",
+  "version": "0.1.0",
+  "description": "Examples of using and testing promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha test*.js"
+  },
+  "author": "Ben Paddock",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "should": "^13.2.3"
+  }
+}
