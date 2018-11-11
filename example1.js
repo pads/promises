@@ -14,6 +14,13 @@ class Main {
   deadEnd() {
     return new Promise(() => {});
   }
+
+  badFunction() {
+    return new Promise((resolve) => {
+      const typo = 'typo';
+      resolve(oops.typo);
+    });
+  }
 }
 
 module.exports = Main;

@@ -24,4 +24,8 @@ describe('Testing promises', () => {
   xit('should timeout when the promise does not resolve or reject', () => {
     return main.deadEnd().should.be.fulfilledWith('hello');
   });
+
+  it('should fail with a reference error', () => {
+    return main.badFunction().should.be.fulfilledWith('typo');
+  });
 });
