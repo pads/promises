@@ -21,6 +21,12 @@ class Main {
       resolve(oops.typo);
     });
   }
+
+  throwError() {
+    return new Promise(() => {
+      throw new Error('THROWN');
+    });
+  }
 }
 
 module.exports = Main;

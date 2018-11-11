@@ -25,7 +25,11 @@ describe('Testing promises', () => {
     return main.deadEnd().should.be.fulfilledWith('hello');
   });
 
-  it('should fail with a reference error', () => {
+  xit('should fail with a reference error', () => {
     return main.badFunction().should.be.fulfilledWith('typo');
+  });
+
+  it('should fail when an error is thrown', () => {
+    return main.throwError().should.be.rejectedWith('THROWN');
   });
 });
