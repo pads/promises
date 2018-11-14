@@ -4,11 +4,14 @@
   "description": "Examples of using and testing promises",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha test*.js"
+    "test": "node_modules/.bin/mocha test*.js",
+    "lint": "node_modules/.bin/eslint *.js"
   },
   "author": "Ben Paddock",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-plugin-promise": "^4.0.1",
     "mocha": "^5.2.0",
     "should": "^13.2.3"
   }

@@ -1,0 +1,14 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "extends": ["plugin:promise/recommended"],
+    "plugins": ["promise"]
+}
