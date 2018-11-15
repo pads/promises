@@ -1,35 +1,62 @@
 class Main {
     deserialiseRequest() {
         return new Promise((resolve, reject) => {
+            const model = {
+              type: request.body.type,
+              title: request.body.attributes.title
+            };
+            resolve(model);
+        });
+    }
+
+    validateRequest(inst, model) {
+        return new Promise((resolve, reject) => {
+            if (model.title === '') {
+              return reject(new Error('blank_title'));
+            }
+            if (inst !== 'talis') {
+              return reject(new Error('unknown_inst'));
+            }
             resolve();
         });
     }
 
-    validateRequest() {
+    persistData(model) {
         return new Promise((resolve, reject) => {
-            resolve();
+            // Pretend to save to a database
+            setTimeout(() => {
+                const persisted = Object.assign({ ...model }, { id: 'id1', created: '2018-11-15' });
+                resolve(persisted);
+            }, 1000);
         });
     }
 
-    persistData() {
+    serialiseResponse(inst, model) {
         return new Promise((resolve, reject) => {
-            resolve();
-        });
-    }
-
-    serialiseResponse() {
-        return new Promise((resolve, reject) => {
-            resolve();
+            const response = {
+              id: model.id,
+              type: model.type,
+              attributes: {
+                title: model.title
+              },
+              meta: {
+                inst,
+                created: model.created
+              }
+            }
+            resolve(response);
         });
     }
 
     process(request) {
+        const inst = request.path.match(/\w*/g)[1];
+
         return new Promise((resolve, reject) => {
-            this.deserialiseRequest(request).then((payload) => {
-                this.validateRequest(payload).then(() => {
-                    this.persistData().then(() => {
-                        this.serialiseResponse().then(() => {
-                            resolve();
+            this.deserialiseRequest(request).then((model) => {
+                this.validateRequest(inst, model).then(() => {
+                    this.persistData(model).then((persisted) => {
+                        this.serialiseResponse(inst, persisted).then((response) => {
+                            resolve(response);
                         });
                     }).catch((persistError) => {
                         this.serialiseResponse(persistError);

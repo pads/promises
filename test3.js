@@ -9,7 +9,7 @@ describe('Nested example', () => {
     main = new Main();
   });
 
-  it('should resolve given a valid title', () => {
+  it.only('should resolve given a valid title', () => {
     const request = {
       path: '/talis/things',
       body: {
