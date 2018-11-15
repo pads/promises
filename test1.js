@@ -1,12 +1,16 @@
 require('should');
+const sinon = require('sinon');
 
+const Dependency = require('./dep1');
 const Main = require('./example1');
 
 describe('Testing promises', () => {
   let main;
+  let dependency;
 
   beforeEach(() => {
-    main = new Main();
+    dependency = new Dependency();
+    main = new Main(dependency);
   });
 
   it('should resolve', () => {
@@ -31,5 +35,11 @@ describe('Testing promises', () => {
 
   it('should fail when an error is thrown', () => {
     return main.throwError().should.be.rejectedWith('THROWN');
+  });
+
+  it('should work with dependencies', () => {
+    sinon.stub(dependency, 'getDependedOnThing').resolves('dependency');
+
+    return main.doSomethingWithDependency().should.be.fulfilledWith('Hello, dependency');
   });
 });

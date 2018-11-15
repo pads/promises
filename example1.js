@@ -1,4 +1,8 @@
 class Main {
+  constructor(dependency) {
+    this.dependency = dependency;
+  }
+
   resolveSomething() {
     return new Promise((resolve, reject) => {
       resolve('hello');
@@ -26,6 +30,12 @@ class Main {
     return new Promise(() => {
       throw new Error('THROWN');
     });
+  }
+
+  doSomethingWithDependency() {
+    return this.dependency
+      .getDependedOnThing()
+      .then(thing => `Hello, ${thing}`);
   }
 }
 
