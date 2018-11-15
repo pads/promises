@@ -1,5 +1,5 @@
 class Main {
-    deserialiseRequest() {
+    deserialiseRequest(request) {
         return new Promise((resolve, reject) => {
             const model = {
               type: request.body.type,
