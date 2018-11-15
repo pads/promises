@@ -2,7 +2,7 @@ require('should');
 
 const Main = require('./example2');
 
-describe('Flat-chaining example', () => {
+describe('Nested example', () => {
   let main;
 
   beforeEach(() => {
