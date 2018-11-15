@@ -1,12 +1,16 @@
 require('should');
+const sinon = require('sinon');
 
+const FakeDatabase = require('./fake-database');
 const Main = require('./example3');
 
 describe('Flat-chaining example', () => {
+  let database;
   let main;
 
   beforeEach(() => {
-    main = new Main();
+    database = new FakeDatabase();
+    main = new Main(database);
   });
 
   it('should resolve given a valid title', () => {
@@ -60,5 +64,21 @@ describe('Flat-chaining example', () => {
     };
 
     return main.process(request).should.be.rejectedWith('unknown_inst');
+  });
+
+  it('should reject when the database fails to save', () => {
+    const request = {
+      path: '/talis/things',
+      body: {
+        type: 'things',
+        attributes: {
+          title: 'The Thing'
+        }
+      }
+    };
+
+    sinon.stub(database, 'save').rejects(new Error('database_error'));
+
+    return main.process(request).should.be.rejectedWith('database_error');
   });
 });

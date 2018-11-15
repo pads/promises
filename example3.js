@@ -1,4 +1,8 @@
 class Main {
+  constructor(database) {
+    this.database = database;
+  }
+
   deserialiseRequest(request) {
     return new Promise((resolve, reject) => {
       const inst = request.path.match(/\w*/g)[1];
@@ -24,13 +28,9 @@ class Main {
   }
 
   persistData(input) {
-    return new Promise((resolve, reject) => {
-      // Pretend to save to a database
-      setTimeout(() => {
-        const persisted = Object.assign({ ...input.model }, { id: 'id1', created: '2018-11-15' });
-        resolve({ ...input, model: persisted });
-      }, 1000);
-    });
+    return this.database
+      .save(input.model)
+      .then(persisted => ({ ...input, model: persisted }))
   }
 
   serialiseResponse(input) {
@@ -55,7 +55,7 @@ class Main {
     return this
       .deserialiseRequest(request)
       .then(this.validateRequest)
-      .then(this.persistData)
+      .then(this.persistData.bind(this))
       .then(this.serialiseResponse);
   }
 }
